@@ -3,20 +3,22 @@ import yfinance as yf
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from datetime import datetime
+from datetime import datetime, date
+
 
 st.write("""
          ## Apple Stock Price Tracker
-
          Графики отображают цену закрытия и объем торгов (период — 1 день).
 
          Вы можете скачать графики, нажав кнопку в левой панели.
-
-         
 """)
 
+# st.write('Выберите даты начала и конца отслеживаемого периода:')
+start_date = st.date_input("Начало периода", date(2024, 1, 1))
+end_date = st.date_input("Конец периода", datetime.now())
+
 tickerData = yf.Ticker('AAPL')
-aaplDf = tickerData.history(period='1d', start='2024-01-01', end=datetime.today().strftime('%Y-%m-%d'))
+aaplDf = tickerData.history(period='1d', start=start_date, end=end_date)
 
 plt.style.use("dark_background")
 fig, ax = plt.subplots(nrows=2, figsize=(10, 8), dpi=400)
